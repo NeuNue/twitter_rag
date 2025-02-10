@@ -22,8 +22,8 @@
 
 1. 克隆仓库：
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone git@github.com:NeuNue/twitter_rag.git
+cd twitter_rag
 ```
 
 2. 安装依赖：
@@ -43,12 +43,22 @@ PINECONE_ENV=your_pinecone_environment
 
 ## 使用方法
 
-### 1. 启动问答系统：
+### 1. 数据准备
+将你的 Twitter 数据保存为 Excel 文件（merged_result.xlsx），确保数据格式正确。
+
+### 2. 首次运行
+首次运行时，需要加载数据到 Pinecone：
+```bash
+python test_rag.py --load-data
+```
+
+### 3. 后续使用
+直接启动问答系统：
 ```bash
 python test_rag.py
 ```
 
-### 2. 交互方式
+### 4. 交互方式
 - 输入问题并按回车
 - 系统会返回答案和相关的源文档
 - 输入 'exit' 退出系统
@@ -94,3 +104,44 @@ python test_rag.py
    - 基于上下文的答案生成
    - 源文档追踪
    - 自然语言交互
+
+## 注意事项
+
+1. API 使用
+   - 确保 OpenAI API 密钥有足够的额度
+   - 注意 Pinecone 的服务等级限制
+
+2. 数据安全
+   - 不要将 API 密钥提交到版本控制系统
+   - 妥善保管 .env 文件
+
+3. 性能优化
+   - 默认使用 text-embedding-3-large 模型（3072维）
+   - 可以根据需要调整文本分块大小和重叠度
+   - 检索时默认返回前3个最相关文档
+
+## 故障排除
+
+1. 如果遇到 API 错误：
+   - 检查 API 密钥是否正确
+   - 确认 API 调用限制和配额
+
+2. 如果遇到内存问题：
+   - 调整 chunk_size 参数
+   - 减少批处理大小
+
+3. 如果答案质量不理想：
+   - 调整检索文档数量（k 参数）
+   - 优化文本分块策略
+   - 修改提示模板
+
+## 贡献指南
+
+欢迎提交 Issue 和 Pull Request 来改进项目。请确保：
+1. 代码符合 PEP 8 规范
+2. 添加适当的测试
+3. 更新相关文档
+
+## 许可证
+
+[MIT License](LICENSE)
